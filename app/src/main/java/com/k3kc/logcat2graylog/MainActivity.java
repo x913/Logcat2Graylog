@@ -36,8 +36,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Log.d("AAA", "btnRunGraylog");
 
-                LogcatData logcatData = new LogcatData(5);
-                GraylogReceiver graylogReceiver = new GraylogReceiver(logcatData, new Sender(new GelfSenderBehavior()));
+                final LogcatData logcatData = new LogcatData(5);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new GraylogReceiver(logcatData, new Sender(new GelfSenderBehavior()));
+                    }
+                }).start();
+
+
 
                 List<String> sCommand = new ArrayList<String>();
                 sCommand.add("logcat");
